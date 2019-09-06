@@ -45,5 +45,6 @@ def show(edges, node_color, use_labels=False):  # отображает граф
 
 
 def create_colors(edges):
-    n = len(nx.Graph(edges).nodes)
-    return [(count / n, rnd.random(), rnd.random()) for count, node in enumerate(g.nodes)]
+    g = nx.Graph(edges)
+    n = len(g.nodes)
+    return {node: (count / n, rnd.random(), rnd.random()) for count, node in enumerate(g.nodes)}
