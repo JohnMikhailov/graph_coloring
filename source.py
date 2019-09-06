@@ -1,6 +1,8 @@
-import networkx as nx
+from graphio import create_colors, show
 
-g = nx.Graph()
-g.add_edges_from([('a', 'b'), ('a', 'c'), ('b', 'c')])
-pos = nx.spring_layout(g)
-nx.draw(g, pos)
+edges = [('a', 'b'), ('b', 'c'), ('a', 'c')]
+node_color = create_colors(edges)
+print(node_color)
+# print(create_colors(edges))
+show(edges, create_colors(edges))
+

@@ -1,4 +1,6 @@
 import networkx as nx
+import matplotlib.pyplot as plt
+import random as rnd
 
 '''
         Считываение графа
@@ -31,9 +33,20 @@ def write_edges(path='output.txt'):
 
 # входной граф - список ребер
 # если взять пример выше, то edges представлется так: edges = [('a', 'b'), ('a', 'c'), ('b', 'c')]
-def show(edges, colors, use_labels=False):
+# node_color = {node: 'color'}
+def show(edges, node_color, use_labels=False):  # отображает граф
     #  цвета представляются в виде целых чисел, больших 1
     g = nx.Graph()
     g.add_edges_from(edges)
     pos = nx.spring_layout(g)
-    nx.draw(g, node_color=colors, with_labels=use_labels)
+    for node, color in node_color.items():
+        nx.draw(g, pos, nodelist=[node], node_color=color)
+    plt.show()
+
+
+def create_colors(edges):
+    g = nx.Graph(edges)
+    node_color = {}
+    for count, node in enumerate(g.nodes):
+        node_color[node] = (count / len(g.nodes), rnd.random(), rnd.random())
+    return node_color
