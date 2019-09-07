@@ -1,4 +1,4 @@
-from random import shuffle, random
+from random import shuffle, random, randint
 from itertools import cycle
 
 
@@ -10,37 +10,38 @@ class GeneticColoring:
         self.edges = graph.edges
         self.node_color = {}
 
-    def is_valid(self):
+    def __is_coloring_valid(self):
         for i, j in self.edges:
             if self.node_color[i] == self.node_color[j]:
                 return False
         return True
 
-    def apply_colors(self, colors):
+    def __apply_colors(self, colors):
         shuffle(colors)
         color = cycle(colors)
         self.node_color = {node: next(color) for node in self.nodes}
 
-    def start(self, steps=1):
+    def __fitness(self):
+        return len(set(self.node_color.values()))
+
+    def start(self, fit, steps=1):
         colors = list(range(len(self.nodes)))
-        self.apply_colors(colors)
-        saved_colors = []
+        self.__apply_colors(colors)
         valid_config = {}
         for step in range(steps):
-            if self.is_valid():
-                saved_colors = colors.copy()
+            if self.__is_coloring_valid():
+                if self.__fitness() <= fit:  # минимизация
+                    return
                 valid_config = self.node_color
                 colors.pop()
-                self.apply_colors(colors)
+                self.__apply_colors(colors)
             else:
-                colors = saved_colors.copy()
                 self.node_color = valid_config
-        if not self.is_valid():
+                colors = list(valid_config.values())
+                shuffle(colors)
+        if not self.__is_coloring_valid():
             self.node_color = valid_config
-        return len(colors)
-
-    def fitness(self):
-        pass
+        return len(set(self.node_color.values()))
 
     def get_coloring(self):
         rgb = {color: ((color / len(self.nodes)) * random(), random(), random()) for color in self.node_color.values()}

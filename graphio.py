@@ -33,11 +33,12 @@ def write_edges(path='output.txt'):
 # входной граф - список ребер
 # если взять пример выше, то edges представлется так: edges = [('a', 'b'), ('a', 'c'), ('b', 'c')]
 # node_color = {node: 'color'}
-def show(edges, node_color, use_labels=False):  # отображает граф
+def show(edges, node_color, with_labels=True):  # отображает граф
     #  цвета представляются в виде целых чисел, больших 1
     g = nx.Graph()
     g.add_edges_from(edges)
     pos = nx.spring_layout(g)
     for node, color in node_color.items():
-        nx.draw(g, pos, nodelist=[node], node_color=color)
+        nx.draw(g, pos, nodelist=[node], node_color=color, with_labels=with_labels)
+    plt.gcf().canvas.set_window_title('Colored graph')
     plt.show()

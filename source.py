@@ -1,9 +1,9 @@
-from graphio import show
+from graphio import show, read_edges
 from genetic.coloring import GeneticColoring
 import networkx as nx
 
 
-edges = [('a', 'b'), ('b', 'c'), ('a', 'c'), ('c', 'd')]
+edges = read_edges('input.txt')
 g = GeneticColoring(nx.Graph(edges))
-n = g.start(10)
+print(g.start(fit=3, steps=500))
 show(edges, g.get_coloring())
