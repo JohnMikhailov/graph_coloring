@@ -1,4 +1,4 @@
-from random import shuffle, choice, random
+from random import shuffle, random
 from itertools import cycle
 
 
@@ -16,9 +16,6 @@ class GeneticColoring:
                 return False
         return True
 
-    def initialize_colors(self, colors):
-        self.node_color = {node: color for node, color in zip(self.nodes, colors)}
-
     def apply_colors(self, colors):
         shuffle(colors)
         color = cycle(colors)
@@ -26,22 +23,25 @@ class GeneticColoring:
 
     def start(self, steps=1):
         colors = list(range(len(self.nodes)))
-        self.initialize_colors(colors)
+        self.apply_colors(colors)
         saved_colors = []
+        valid_config = {}
         for step in range(steps):
             if self.is_valid():
                 saved_colors = colors.copy()
+                valid_config = self.node_color
                 colors.pop()
                 self.apply_colors(colors)
             else:
                 colors = saved_colors.copy()
+                self.node_color = valid_config
+        if not self.is_valid():
+            self.node_color = valid_config
         return len(colors)
 
     def fitness(self):
         pass
 
-#TODO: вынести одинаковые цвета!!! все цвета получаются разными из-за рандома
-# один и тот же цвет получается в итоге с разными оттенками
-
-    def get_coloring(self, fit):
-        return {node: ((int_color / fit) * random(), random(), random()) for node, int_color in self.node_color.items()}
+    def get_coloring(self):
+        rgb = {color: ((color / len(self.nodes)) * random(), random(), random()) for color in self.node_color.values()}
+        return {node: rgb[self.node_color[node]] for node in self.nodes}
