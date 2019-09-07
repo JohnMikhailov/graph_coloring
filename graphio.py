@@ -42,9 +42,3 @@ def show(edges, node_color, use_labels=False):  # отображает граф
     for node, color in node_color.items():
         nx.draw(g, pos, nodelist=[node], node_color=color)
     plt.show()
-
-
-def create_colors(edges):
-    g = nx.Graph(edges)
-    n = len(g.nodes)
-    return {node: (count / n, rnd.random(), rnd.random()) for count, node in enumerate(g.nodes)}
