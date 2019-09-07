@@ -1,5 +1,5 @@
-from graphio import create_colors
-from random import shuffle, choice
+from random import shuffle, choice, random
+from itertools import cycle
 
 
 class GeneticColoring:
@@ -8,19 +8,7 @@ class GeneticColoring:
         self.graph = graph
         self.nodes = self.graph.nodes
         self.edges = graph.edges
-        self.colors = None
         self.node_color = {}
-
-    def generate_colors(self):
-        self.node_color = create_colors(self.edges)
-        self.colors = list(self.node_color.values())
-
-    def crossing_over(self, agent1, agent2):
-        pass
-
-    def mutation(self):
-        colors = list(self.node_color.values())
-        self.node_color = {node: choice(colors[1:]) for node in self.nodes}
 
     def is_valid(self):
         for i, j in self.edges:
@@ -28,14 +16,32 @@ class GeneticColoring:
                 return False
         return True
 
-    def start(self, steps=1):
-        self.generate_colors()
-        valid_config = self.node_color.copy()
-        for step in range(steps):
-            self.mutation()
-            if self.is_valid():
-                valid_config = self.node_color.copy()
-        self.node_color = valid_config.copy()
+    def initialize_colors(self, colors):
+        self.node_color = {node: color for node, color in zip(self.nodes, colors)}
 
-    def get_coloring(self):
-        return self.node_color
+    def apply_colors(self, colors):
+        shuffle(colors)
+        color = cycle(colors)
+        self.node_color = {node: next(color) for node in self.nodes}
+
+    def start(self, steps=1):
+        colors = list(range(len(self.nodes)))
+        self.initialize_colors(colors)
+        saved_colors = []
+        for step in range(steps):
+            if self.is_valid():
+                saved_colors = colors.copy()
+                colors.pop()
+                self.apply_colors(colors)
+            else:
+                colors = saved_colors.copy()
+        return len(colors)
+
+    def fitness(self):
+        pass
+
+#TODO: вынести одинаковые цвета!!! все цвета получаются разными из-за рандома
+# один и тот же цвет получается в итоге с разными оттенками
+
+    def get_coloring(self, fit):
+        return {node: ((int_color / fit) * random(), random(), random()) for node, int_color in self.node_color.items()}

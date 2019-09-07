@@ -3,8 +3,7 @@ from genetic.coloring import GeneticColoring
 import networkx as nx
 
 
-edges = [('a', 'b'), ('b', 'c'), ('a', 'c'), ('c', 'd'), ('a', 'd'), ('a', 'e')]
+edges = [('a', 'b'), ('b', 'c'), ('a', 'c'), ('c', 'd')]
 g = GeneticColoring(nx.Graph(edges))
-g.start(100)
-nc = g.node_color
-show(edges, nc)
+n = g.start(100)
+show(edges, g.get_coloring(n))
