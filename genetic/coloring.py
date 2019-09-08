@@ -31,7 +31,7 @@ class GeneticColoring:
         for step in range(steps):
             if self.__is_coloring_valid():
                 if self.__fitness() <= fit:  # минимизация
-                    return
+                    return fit
                 valid_config = self.node_color
                 colors.pop()
                 self.__apply_colors(colors)
