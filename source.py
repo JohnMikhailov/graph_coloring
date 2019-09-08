@@ -5,5 +5,5 @@ import networkx as nx
 
 edges = read_edges('input.txt')
 g = GeneticColoring(nx.Graph(edges))
-print(g.start(fit=3, steps=500))
-show(edges, g.get_coloring())
+g.start(fit=3, steps=50)
+show(edges, g.get_coloring(), message=f'colors amount = {g.fit}')
