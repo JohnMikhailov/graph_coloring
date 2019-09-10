@@ -2,7 +2,7 @@ from itertools import cycle
 from random import random
 
 
-class GeneticMixin:
+class RandomSearchingToolsMixin:
 
     def mutate(self, colors, i=0):
         colors.pop(i)

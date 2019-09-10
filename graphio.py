@@ -1,28 +1,10 @@
 import networkx as nx
 import matplotlib.pyplot as plt
 
-'''
-        Считываение графа
 
-        Формат графа в файле: каждая строка файла - два обозначения, разделенных пробелом
-        Вершиной графа может быть число, слово, буква, символ и тд
-
-        Пример файла:
-
-        a b
-        a c
-        b c
-
-'''
-
-
-def read_edges(path='input.txt'):  # path - путь к файлу, input.txt - значение по умолчанию
+def read_edges(path='input.txt'):
     with open(path) as inputs:
-        edges = [tuple(i.strip().split()) for i in inputs.readlines()]  # считываем все строки из файла
-        #  получаем список строк, для примера выше список будет выглядеть так: ['a b', 'a c', 'b c']
-        #  i.strip() - убирает пробелы, табы и переносы строки
-        #  split() - разделяет строку по пробелу (можно указать любой символ, по умолчанию - пробел)
-        #  в итоге: edges = [('a', 'b'), ('a', 'c'), ('b', 'c')]
+        edges = [tuple(i.strip().split()) for i in inputs.readlines()]
     return edges
 
 
@@ -30,9 +12,6 @@ def write_edges(path='output.txt'):
     pass
 
 
-# входной граф - список ребер
-# если взять пример выше, то edges представлется так: edges = [('a', 'b'), ('a', 'c'), ('b', 'c')]
-# node_color = {node: 'color'}
 def show(edges, node_color, message='Colored graph', with_labels=True):
     g = nx.Graph()
     g.add_edges_from(edges)

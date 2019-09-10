@@ -1,8 +1,8 @@
 from random import shuffle
-from hybrid.mixins import GeneticMixin, GetColoringMixin
+from coloring.mixins import RandomSearchingToolsMixin, GetColoringMixin
 
 
-class GeneticColoring(GeneticMixin, GetColoringMixin):
+class Coloring(RandomSearchingToolsMixin, GetColoringMixin):
 
     def __init__(self, graph):
         self.graph = graph
@@ -13,7 +13,7 @@ class GeneticColoring(GeneticMixin, GetColoringMixin):
         self.rgb = None
         self.rgb_coloring = None
 
-    def build_coloring(self, fit, steps=1):
+    def build(self, fit, steps=1):
         colors = list(range(len(self.nodes)))
         self.mutate(colors)
         valid_config = {}
