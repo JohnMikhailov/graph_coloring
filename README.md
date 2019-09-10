@@ -1,2 +1,2 @@
 # graph_coloring
-Hybrid algorithm solving graph coloring problem
+Random search algorithm solving graph coloring problem
